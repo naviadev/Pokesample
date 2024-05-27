@@ -4,15 +4,18 @@
 
 스크럼 방식을 따르며, 여러번의 Sprint를 거치는 과정을 통하여 Prototype을 개선해나갈 예정. 
 
-### Stack 
 ---
+
+### Stack 
+
 Nest.js, Typescript, SPA(Vue.js), better-sqlite3 ...
 
-
+---
 
 # Agile Process 
-### 2024 05 27 ~ 05 31 까지의 Sprint 1 - a 의 목표 
----
+
+2024 05 27 ~ 05 31 까지의 Sprint 1 - a 의 목표 
+
 Prototype 목표 : Get과 Post를 활용하여 샘플을 텍스트의 형태로 등록하여 열람할 수 있는 형태를 제공해야한다.
 
 1. Nest.JS로 GET POST 요청을 처리할 수 있는 페이지.
