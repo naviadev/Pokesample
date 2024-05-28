@@ -1,0 +1,84 @@
+@import "./mixin.scss", "./func.scss";
+
+* {
+  margin: 0px;
+  padding: 0px;
+  font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+#root-container {
+  width: 1455px;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  >:nth-child(1) {
+    width: 1300px;
+    height: 80px;
+    display: grid;
+    grid-template-columns: 1fr 2fr 3fr 2fr;
+    grid-template-areas: "img Logo empty ul";
+
+    // img Logo
+    >:nth-child(1){
+      grid-area: img;
+      
+      @include flexAlign; 
+      
+    }
+    // Logo
+    >:nth-child(2){
+      grid-area: Logo;
+      @include flexAlign;
+    }
+    // ul
+    >:nth-child(3){
+      grid-area: ul;
+      @include flexAlign;
+      >li{
+        margin: auto;
+        display: inline;
+      }
+      
+    }
+  }
+
+  >:nth-child(2) {
+    width: 1300px;
+    height: 600px;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-template-areas: "LEFT RIGHT";
+
+    // content-section
+    >:nth-child(1) {
+      grid-area: LEFT;
+    }
+
+    // info-view-container
+    >:nth-child(2) {
+      grid-area: RIGHT;
+      display: grid;
+      grid-template-rows: 2fr 2fr 4fr;
+      grid-template-areas: 
+      "login"
+      "empty"
+      "latest";
+
+      // login-section
+      >:nth-child(1){grid-area: login;}
+      // latest-content-section
+      >:nth-child(2){grid-area: latest;}
+      
+    }
+  }
+
+
+}
