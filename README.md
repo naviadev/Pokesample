@@ -4,11 +4,11 @@
 
 스크럼 방식을 따르며, 여러번의 Sprint를 거치는 과정을 통하여 Prototype을 개선해나갈 예정. 
 
----
-
 ### Stack 
 
 Nest.js, Typescript, sqlite3 ...
+
+
 
 ---
 
