@@ -46,7 +46,6 @@
         margin: auto;
         display: inline;
       }
-      
     }
   }
 
@@ -60,23 +59,33 @@
     // content-section
     >:nth-child(1) {
       grid-area: LEFT;
+      border: solid 1px;
+      border-radius: 40px;
     }
 
     // info-view-container
     >:nth-child(2) {
       grid-area: RIGHT;
       display: grid;
-      grid-template-rows: 2fr 2fr 4fr;
+      grid-template-rows: 2fr 1fr 6fr;
       grid-template-areas: 
       "login"
       "empty"
       "latest";
 
       // login-section
-      >:nth-child(1){grid-area: login;}
+      >:nth-child(1){
+        grid-area: login;
+        border: solid 1px;
+        border-radius: 40px;
+      }
       // latest-content-section
-      >:nth-child(2){grid-area: latest;}
-      
+      >:nth-child(2){
+        grid-area: latest;
+        border: solid 1px;
+        border-radius: 40px;
+      }
+        
     }
   }
 

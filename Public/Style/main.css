@@ -1,0 +1,77 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+#root-container {
+  width: 1455px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#root-container > :nth-child(1) {
+  width: 1300px;
+  height: 80px;
+  display: grid;
+  grid-template-columns: 1fr 2fr 3fr 2fr;
+  grid-template-areas: "img Logo empty ul";
+}
+#root-container > :nth-child(1) > :nth-child(1) {
+  grid-area: img;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+#root-container > :nth-child(1) > :nth-child(2) {
+  grid-area: Logo;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+#root-container > :nth-child(1) > :nth-child(3) {
+  grid-area: ul;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+#root-container > :nth-child(1) > :nth-child(3) > li {
+  margin: auto;
+  display: inline;
+}
+#root-container > :nth-child(2) {
+  width: 1300px;
+  height: 600px;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-areas: "LEFT RIGHT";
+}
+#root-container > :nth-child(2) > :nth-child(1) {
+  grid-area: LEFT;
+  border: solid 1px;
+  border-radius: 40px;
+}
+#root-container > :nth-child(2) > :nth-child(2) {
+  grid-area: RIGHT;
+  display: grid;
+  grid-template-rows: 2fr 1fr 6fr;
+  grid-template-areas: "login" "empty" "latest";
+}
+#root-container > :nth-child(2) > :nth-child(2) > :nth-child(1) {
+  grid-area: login;
+  border: solid 1px;
+  border-radius: 40px;
+}
+#root-container > :nth-child(2) > :nth-child(2) > :nth-child(2) {
+  grid-area: latest;
+  border: solid 1px;
+  border-radius: 40px;
+}/*# sourceMappingURL=main.css.map */
