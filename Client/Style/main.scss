@@ -65,97 +65,79 @@
     // content-section
     >:nth-child(1) {
       grid-area: LEFT;
-      display: grid;
-      grid-template-rows: 2fr 3fr;
-      grid-template-areas:
-        "popular"
-        "news";
+
+    // news-section
+    >:nth-child(2) {
+      grid-area: news;
+      border: solid 1px;
+      border-radius: 40px;
+      @include flexAlign;
       gap: 30px;
 
-      // popular-sample-section
-      >:nth-child(1) {
-        grid-area: popular;
-        border: solid 1px;
-        border-radius: 40px;
+      >:nth-child(2) {
         @include flexAlign;
         gap: 30px;
+        height: 100%;
 
         >div {
           border-radius: 40px;
-          width: 200px;
-          height: 80%;
+          width: 250px;
+          height: 70%;
           background-color: rgb(180, 180, 180);
         }
       }
+    }
+  }
 
-      // news-section
+  // info-view-container
+  >:nth-child(2) {
+    grid-area: RIGHT;
+    display: grid;
+    grid-template-rows: 2fr 1fr 6fr;
+    grid-template-areas:
+      "login"
+      "empty"
+      "latest";
+
+    // login-section
+    >:nth-child(1) {
+      grid-area: login;
+      border: solid 1px;
+      border-radius: 40px;
+      @include flexAlign;
+      flex-direction: column;
+
       >:nth-child(2) {
-        grid-area: news;
-        border: solid 1px;
-        border-radius: 40px;
         @include flexAlign;
-        gap: 30px;
-        >:nth-child(2) {
-          @include flexAlign;
-          gap: 30px;
-          height: 100%;
-          >div{
-            border-radius: 40px;
-            width: 250px;
-            height: 70%;
-            background-color: rgb(180, 180, 180);
-          }
-        }
+        flex-direction: column;
       }
     }
 
-    // info-view-container
+    // latest-content-section
     >:nth-child(2) {
-      grid-area: RIGHT;
-      display: grid;
-      grid-template-rows: 2fr 1fr 6fr;
-      grid-template-areas:
-        "login"
-        "empty"
-        "latest";
+      grid-area: latest;
+      height: 400px;
+      overflow: auto;
+      overflow-x: hidden;
+      border: solid 1px;
+      border-radius: 40px;
+      // display: flex;
+      // flex-direction: column;
 
-      // login-section
-      >:nth-child(1) {
-        grid-area: login;
-        border: solid 1px;
-        border-radius: 40px;
-        @include flexAlign;
-        flex-direction: column;
-        >:nth-child(2){
-          @include flexAlign;
-          flex-direction: column;
-        }
+      >div {
+        width: 200px;
+        height: 200px;
+        border: solid;
+        align-self: center;
+        text-align: center;
+        margin: 0px auto 10px;
       }
+    }
 
-      // latest-content-section
-      >:nth-child(2) {
-        grid-area: latest;
-        height: 400px;
-        overflow: auto;
-        overflow-x: hidden;
-        border: solid 1px;
-        border-radius: 40px;
-        // display: flex;
-        // flex-direction: column;
-        
-        >div{
-          width: 200px;
-          height: 200px;  
-          border: solid;
-          align-self: center;
-          text-align: center;
-          margin: 0px auto 10px;
-        }        
-      }
-
-      >:nth-child(2)::-webkit-scrollbar{
-        display:none;
-      }
+    >:nth-child(2)::-webkit-scrollbar {
+      display: none;
     }
   }
 }
+}
+
