@@ -28,4 +28,4 @@ export class ContentView extends HTMLElement {
   }
 }
 
-customElements.define('content-view', ContentView);
+
