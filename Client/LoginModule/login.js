@@ -15,7 +15,10 @@ export let loginFormEventModule = () => {
     else {
         loginForm.addEventListener('submit', (e) => __awaiter(void 0, void 0, void 0, function* () {
             e.preventDefault();
-            let i = yield fetch(`http://localhost:3001/test`, { method: "GET" });
+            let formTag = e.target;
+            let email = formTag[0];
+            let pw = formTag[1];
+            let fetchJson = yield fetch(`http://localhost:3001/login`, { method: "POST", body: JSON.stringify({ email: email.value, pw: pw.value }) });
         }));
     }
 };
