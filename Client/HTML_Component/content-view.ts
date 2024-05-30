@@ -21,11 +21,46 @@ export class ContentView extends HTMLElement {
     rightButton.innerHTML = 'right';
     newsSection.appendChild(rightButton);
 
-  
+    shadowDom.appendChild(this.setStyleContentView());
     shadowDom.appendChild(contentSection);
     contentSection.appendChild(popularSampleSection);
     contentSection.appendChild(newsSection);
+    
+  }
+
+  setStyleContentView(){
+    let style = document.createElement('style');
+    style.textContent = `
+    #content-section{
+      display: grid;
+      grid-template-rows: 2fr 3fr;
+      grid-template-areas:
+        "popular"
+        "news";
+      gap: 30px;
+    
+      // popular-sample-section
+      >:nth-child(1) {
+        grid-area: popular;
+        border: solid 1px;
+        border-radius: 40px;
+        @include flexAlign;
+        gap: 30px;
+    
+        >div {
+          border-radius: 40px;
+          width: 200px;
+          height: 80%;
+          background-color: rgb(180, 180, 180);
+        }
+    }
+    
+    }
+    `
+    return style;
   }
 }
+
+
 
 
