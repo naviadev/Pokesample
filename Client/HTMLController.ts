@@ -1,6 +1,0 @@
-let htmlController = (viewName : string)=>{
-
-
-
-}
-
