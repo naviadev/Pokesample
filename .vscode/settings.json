@@ -1,0 +1,10 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "driver": "SQLite",
+      "database": "${workspaceFolder:PokeSampleProject}/server/DB/user_data.db",
+      "name": "user_data"
+    }
+  ]
+}

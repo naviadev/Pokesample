@@ -1,0 +1,146 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+#root-container {
+  width: 1455px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#root-container > :nth-child(1) {
+  width: 1300px;
+  height: 80px;
+  display: grid;
+  grid-template-columns: 1fr 2fr 3fr 2fr;
+  grid-template-areas: "img Logo empty ul";
+}
+#root-container > :nth-child(1) > :nth-child(1) {
+  grid-area: img;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+#root-container > :nth-child(1) > :nth-child(2) {
+  grid-area: Logo;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+#root-container > :nth-child(1) > :nth-child(3) {
+  grid-area: ul;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+#root-container > :nth-child(1) > :nth-child(3) > li {
+  margin: auto;
+  display: inline;
+}
+#root-container > :nth-child(2) {
+  width: 1300px;
+  height: 600px;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-areas: "LEFT RIGHT";
+  gap: 30px;
+}
+#root-container > :nth-child(2) > :nth-child(1) {
+  grid-area: LEFT;
+  display: grid;
+  grid-template-rows: 2fr 3fr;
+  grid-template-areas: "popular" "news";
+  gap: 30px;
+}
+#root-container > :nth-child(2) > :nth-child(1) > :nth-child(1) {
+  grid-area: popular;
+  border: solid 1px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 30px;
+}
+#root-container > :nth-child(2) > :nth-child(1) > :nth-child(1) > div {
+  border-radius: 40px;
+  width: 200px;
+  height: 80%;
+  background-color: rgb(180, 180, 180);
+}
+#root-container > :nth-child(2) > :nth-child(1) > :nth-child(2) {
+  grid-area: news;
+  border: solid 1px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 30px;
+}
+#root-container > :nth-child(2) > :nth-child(1) > :nth-child(2) > :nth-child(2) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 30px;
+  height: 100%;
+}
+#root-container > :nth-child(2) > :nth-child(1) > :nth-child(2) > :nth-child(2) > div {
+  border-radius: 40px;
+  width: 250px;
+  height: 70%;
+  background-color: rgb(180, 180, 180);
+}
+#root-container > :nth-child(2) > :nth-child(2) {
+  grid-area: RIGHT;
+  display: grid;
+  grid-template-rows: 2fr 1fr 6fr;
+  grid-template-areas: "login" "empty" "latest";
+}
+#root-container > :nth-child(2) > :nth-child(2) > :nth-child(1) {
+  grid-area: login;
+  border: solid 1px;
+  border-radius: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+}
+#root-container > :nth-child(2) > :nth-child(2) > :nth-child(1) > :nth-child(2) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+}
+#root-container > :nth-child(2) > :nth-child(2) > :nth-child(2) {
+  grid-area: latest;
+  height: 400px;
+  overflow: auto;
+  overflow-x: hidden;
+  border: solid 1px;
+  border-radius: 40px;
+}
+#root-container > :nth-child(2) > :nth-child(2) > :nth-child(2) > div {
+  width: 200px;
+  height: 200px;
+  border: solid;
+  align-self: center;
+  text-align: center;
+  margin: 0px auto 10px;
+}
+#root-container > :nth-child(2) > :nth-child(2) > :nth-child(2)::-webkit-scrollbar {
+  display: none;
+}/*# sourceMappingURL=main.css.map */

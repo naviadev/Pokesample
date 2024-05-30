@@ -124,7 +124,9 @@
         grid-area: login;
         border: solid 1px;
         border-radius: 40px;
-        >:nth-child(1){
+        @include flexAlign;
+        flex-direction: column;
+        >:nth-child(2){
           @include flexAlign;
           flex-direction: column;
         }
