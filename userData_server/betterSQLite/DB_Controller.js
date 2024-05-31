@@ -6,21 +6,20 @@ class DatabaseController {
   }
 
   insertUserData(mail, name, pw) {
+
     let register = this.db.prepare('insert into user (email, name, password) values (?, ?, ?)');
     register.run(mail, name, pw);
-    this.db.close();
+    return true;
+
   }
 
   checkUserEmail(email) {
     let checkEmail = this.db.prepare(`SELECT * FROM user where email = ?`)
     let result = checkEmail.get(email);
-    
-    result !== undefined ? 
-    result = true : 
-    result = false;
 
-    this.db.close();
-
+    result !== undefined ?
+      result = true :
+      result = false;
     return result;
   }
 
