@@ -16,6 +16,8 @@ window.onload = () => {
 
   registerAddEvent(mainView);
   logoAddEvent(mainView)  
+
+  addContentViewElement()
 }
 
 
@@ -34,4 +36,10 @@ let logoAddEvent = (mainView: HTMLDivElement): void =>{
     let content = document.createElement('content-view');
     mainView.insertBefore(content, mainView.children[0]);
   })
+}
+
+let addContentViewElement = ()=>{
+  let cv = document.querySelector('content-view');
+  let p = cv?.shadowRoot?.children;
+  
 }
