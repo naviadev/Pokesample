@@ -1,16 +1,14 @@
 export class RegisterView extends HTMLElement {
 
-  
   pwState: boolean;
   checkState: boolean;
   nameState: boolean;
   emailState: boolean;
   emailUrlState: boolean;
-  emailString : {
-    [key : string] : string
+  emailString: {
+    [key: string]: string
   };
 
-  
   constructor() {
     super()
     this.createDOM()
@@ -20,8 +18,8 @@ export class RegisterView extends HTMLElement {
     this.emailState = false;
     this.emailUrlState = false;
     this.emailString = {
-      id : "",
-      url : ""
+      id: "",
+      url: ""
     };
   }
 
@@ -90,11 +88,11 @@ export class RegisterView extends HTMLElement {
 
       let boolean = this.emailIdValidation(inputTag.value);
 
-      if(boolean){
-        this.emailState = true; 
+      if (boolean) {
+        this.emailState = true;
         this.emailString.id = inputTag.value;
-      }else{
-        this.emailState = false;  
+      } else {
+        this.emailState = false;
       }
     })
 
@@ -102,11 +100,11 @@ export class RegisterView extends HTMLElement {
     emailURL.addEventListener('input', (e) => {
       let inputTag = e.target as HTMLInputElement;
       let boolean = this.emailUrlValidation(inputTag.value);
-      if(boolean){
-        this.emailUrlState = true; 
+      if (boolean) {
+        this.emailUrlState = true;
         this.emailString.url = inputTag.value;
-      }else{
-        this.emailUrlState = false;  
+      } else {
+        this.emailUrlState = false;
       }
     })
 
@@ -138,24 +136,15 @@ export class RegisterView extends HTMLElement {
         this.nameState = false;
     })
 
-
     // send request 3001 port
-    submitButton.addEventListener('click', async() => {
-      //email 중복 체크.
+    submitButton.addEventListener('click', async () => {
+      //email 중복 체크. 3001 fetch
+      let emailCheck = await fetch(`http://localhost:3001/emailCheck/${this.emailString.id}@${this.emailString.url}`, { method: 'GET' });
 
-
-
-      let emailCheck = await fetch(`http://localhost:3001/emailCheck/${this.emailString.id}@${this.emailString.url}`, {method : 'GET'});
-      
-      console.log(emailCheck)
-
-      if(emailCheck.status == 200){
-        console.log('OO')
-      }else if(emailCheck.status == 400){
-        console.log('xx')
+      if (emailCheck.status === 200) {
+        alert('이미 존재하는 이메일 입니다.');
         return;
       }
-
 
       if (this.pwState && this.checkState && this.emailState && this.emailUrlState && this.nameState) {
         let obj = {
@@ -164,48 +153,18 @@ export class RegisterView extends HTMLElement {
           emailURL: emailURL.value,
           pw: passwordInput.value
         }
+
         let registerFetch = fetch('http://localhost:3001/register',
           {
             method: 'POST',
             body: JSON.stringify(obj)
           })
       }
-      else{
-        alert('안 돼')
+      else {
+        alert('양식 X')
       }
     });
   }
-
-
-
-
-  setStyle() {
-    let style = document.createElement('style');
-    style.textContent = `
-    #register-section{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      >div{
-        margin: 30px
-      }
-      >input{
-        margin: 30px
-      }
-      >:nth-child(3){
-        display: flex;
-        height: 20px;
-        text-align: center;
-        justify-content: center;
-        align-items: center;
-      }
-    }
-    `
-    return style;
-  }
-
-
 
   // 이메일 아이디 확인
   emailIdValidation(name: string): boolean {
@@ -245,8 +204,34 @@ export class RegisterView extends HTMLElement {
     return /^[a-zA-Zㄱ-힣0-9.]{2,12}$/.test(name);
   }
 
-
   passwordVaildation(pw: string): boolean {
     return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{6,18}$/.test(pw)
   }
+
+  setStyle() {
+    let style = document.createElement('style');
+    style.textContent = `
+    #register-section{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      >div{
+        margin: 30px
+      }
+      >input{
+        margin: 30px
+      }
+      >:nth-child(3){
+        display: flex;
+        height: 20px;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+    `
+    return style;
+  }
+
 }
