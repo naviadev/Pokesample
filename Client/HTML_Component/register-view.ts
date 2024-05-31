@@ -1,10 +1,16 @@
 export class RegisterView extends HTMLElement {
+
+  
   pwState: boolean;
   checkState: boolean;
   nameState: boolean;
   emailState: boolean;
   emailUrlState: boolean;
+  emailString : {
+    [key : string] : string
+  };
 
+  
   constructor() {
     super()
     this.createDOM()
@@ -13,6 +19,10 @@ export class RegisterView extends HTMLElement {
     this.nameState = false;
     this.emailState = false;
     this.emailUrlState = false;
+    this.emailString = {
+      id : "",
+      url : ""
+    };
   }
 
   createDOM() {
@@ -80,21 +90,24 @@ export class RegisterView extends HTMLElement {
 
       let boolean = this.emailIdValidation(inputTag.value);
 
-      boolean?
-      this.emailState = true:
-      this.emailState = false;
-
+      if(boolean){
+        this.emailState = true; 
+        this.emailString.id = inputTag.value;
+      }else{
+        this.emailState = false;  
+      }
     })
 
     // url vaildation
     emailURL.addEventListener('input', (e) => {
       let inputTag = e.target as HTMLInputElement;
-
       let boolean = this.emailUrlValidation(inputTag.value);
-
-      boolean?
-      this.emailUrlState = true : 
-      this.emailUrlState = false;
+      if(boolean){
+        this.emailUrlState = true; 
+        this.emailString.url = inputTag.value;
+      }else{
+        this.emailUrlState = false;  
+      }
     })
 
     // pw check
@@ -127,7 +140,23 @@ export class RegisterView extends HTMLElement {
 
 
     // send request 3001 port
-    submitButton.addEventListener('click', () => {
+    submitButton.addEventListener('click', async() => {
+      //email 중복 체크.
+
+
+
+      let emailCheck = await fetch(`http://localhost:3001/emailCheck/${this.emailString.id}@${this.emailString.url}`, {method : 'GET'});
+      
+      console.log(emailCheck)
+
+      if(emailCheck.status == 200){
+        console.log('OO')
+      }else if(emailCheck.status == 400){
+        console.log('xx')
+        return;
+      }
+
+
       if (this.pwState && this.checkState && this.emailState && this.emailUrlState && this.nameState) {
         let obj = {
           name: nameInput.value,
@@ -140,6 +169,9 @@ export class RegisterView extends HTMLElement {
             method: 'POST',
             body: JSON.stringify(obj)
           })
+      }
+      else{
+        alert('안 돼')
       }
     });
   }
