@@ -24,6 +24,13 @@ class DatabaseController {
   }
 
 
+  checkLoginData(email, pw) {
+    let checkLogin = this.db.prepare(`SELECT * FROM user where email = ? AND password = ?`);
+
+    let result = checkLogin.get(email, pw);
+
+    return result;
+  }
 
 }
 module.exports = DatabaseController;
