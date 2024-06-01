@@ -1,5 +1,6 @@
 export class RegisterView extends HTMLElement {
-
+  
+  [key: string]: any;
   pwState: boolean;
   checkState: boolean;
   nameState: boolean;
@@ -24,13 +25,14 @@ export class RegisterView extends HTMLElement {
   }
 
   createDOM() {
-    const shadowDom = this.attachShadow({ mode: 'open' })
+    const shadowDom = this.attachShadow({ mode: 'open' });
+
     const registerSection = document.createElement('div');
     registerSection.setAttribute('id', 'register-section');
 
     // header 
     const headerTag = document.createElement('h2');
-    headerTag.innerHTML = "회원가입"
+    headerTag.innerHTML = "회원가입";
 
     // name
     const nameInput = document.createElement('input');
@@ -40,14 +42,11 @@ export class RegisterView extends HTMLElement {
 
     // email 
     const emailWrapper = document.createElement('div');
-    const eamilInput = document.createElement('input');
-    const at = document.createElement('p')
+    const emailInput = document.createElement('input');
+    const at = document.createElement('p');
     const emailURL = document.createElement('input');
     emailWrapper.setAttribute('id', 'email-wrapper');
-    at.innerHTML = '@'
-    eamilInput.addEventListener('change', () => { });
-    emailURL.addEventListener('change', () => { }); ``
-
+    at.innerHTML = '@';
 
     // password
     const passwordInput = document.createElement('input');
@@ -63,175 +62,133 @@ export class RegisterView extends HTMLElement {
 
     // sendServer 3001 port
     const submitButton = document.createElement('button');
-    submitButton.innerText = '가입'
+    submitButton.innerText = '가입';
 
-
-    // append component
+    // append HtmlElemnet
     shadowDom.appendChild(this.setStyle());
     shadowDom.appendChild(registerSection);
     registerSection.appendChild(headerTag);
     registerSection.appendChild(nameInput);
     registerSection.appendChild(emailWrapper);
-    emailWrapper.appendChild(eamilInput);
-    emailWrapper.appendChild(at)
+    emailWrapper.appendChild(emailInput);
+    emailWrapper.appendChild(at);
     emailWrapper.appendChild(emailURL);
     registerSection.appendChild(passwordInput);
     registerSection.appendChild(pwcheckInput);
     registerSection.appendChild(submitButton);
 
+    // EventListener 
+    this.addInputEventListener(nameInput, this.nameValidation, 'nameState');
+    this.addInputEventListener(emailInput, this.emailIdValidation, 'emailState', 'id');
+    this.addInputEventListener(emailURL, this.emailUrlValidation, 'emailUrlState', 'url');
+    this.addInputEventListener(passwordInput, this.passwordValidation, 'pwState');
 
-
-    // email vaildation
-    eamilInput.addEventListener('input', (e) => {
-
-      let inputTag = e.target as HTMLInputElement;
-
-      let boolean = this.emailIdValidation(inputTag.value);
-
-      if (boolean) {
-        this.emailState = true;
-        this.emailString.id = inputTag.value;
-      } else {
-        this.emailState = false;
-      }
-    })
-
-    // url vaildation
-    emailURL.addEventListener('input', (e) => {
-      let inputTag = e.target as HTMLInputElement;
-      let boolean = this.emailUrlValidation(inputTag.value);
-      if (boolean) {
-        this.emailUrlState = true;
-        this.emailString.url = inputTag.value;
-      } else {
-        this.emailUrlState = false;
-      }
-    })
-
-    // pw check
-    passwordInput.addEventListener('input', (e) => {
-      let pwTag = e.target as HTMLInputElement
-      let boolean = this.passwordVaildation(pwTag.value);
-      boolean ?
-        this.pwState = true :
-        this.pwState = false;
-    })
-
-    // matching
     pwcheckInput.addEventListener('input', (e) => {
-      let checkTag = e.target as HTMLInputElement;
-
-      passwordInput.value === checkTag.value ?
-        this.checkState = true :
-        this.checkState = false;
-    })
-
-    nameInput.addEventListener('input', (e) => {
-      let nameTag = e.target as HTMLInputElement;
-
-      let boolean = this.nameValidation(nameTag.value);
-
-      boolean ?
-        this.nameState = true :
-        this.nameState = false;
-    })
+      const checkTag = e.target as HTMLInputElement;
+      this.checkState = passwordInput.value === checkTag.value;
+    });
 
     // send request 3001 port
-    submitButton.addEventListener('click', async () => {
-      //email 중복 체크. 3001 fetch
-      let emailCheck = await fetch(`http://localhost:3001/emailCheck/${this.emailString.id}@${this.emailString.url}`, { method: 'GET' });
+    submitButton.addEventListener('click', this.handleSubmit.bind(this, nameInput, emailInput, emailURL, passwordInput));
+  }
 
-      if (emailCheck.status === 200) {
-        alert('이미 존재하는 이메일 입니다.');
-        return;
-      }
-
-      if (this.pwState && this.checkState && this.emailState && this.emailUrlState && this.nameState) {
-        let obj = {
-          name: nameInput.value,
-          email: eamilInput.value,
-          emailURL: emailURL.value,
-          pw: passwordInput.value
-        }
-
-        let registerFetch = fetch('http://localhost:3001/register',
-          {
-            method: 'POST',
-            body: JSON.stringify(obj)
-          })
-      }
-      else {
-        alert('양식 X')
+  addInputEventListener(element: HTMLInputElement, validationFn: (value: string) => boolean, stateKey: string, emailKey?: string) {
+    element.addEventListener('input', (e) => {
+      const inputTag = e.target as HTMLInputElement;
+      const isValid = validationFn(inputTag.value);
+      this[stateKey] = isValid;
+      if(emailKey !== undefined){
+        this.emailString[emailKey] = isValid ? inputTag.value : '';
       }
     });
   }
 
-  // 이메일 아이디 확인
+  async handleSubmit(nameInput: HTMLInputElement, emailInput: HTMLInputElement, emailURL: HTMLInputElement, passwordInput: HTMLInputElement) {
+    try {
+      const emailCheckResponse = await fetch(`http://localhost:3001/emailCheck/${this.emailString.id}@${this.emailString.url}`, { method: 'GET' });
+      if (emailCheckResponse.status === 200) {
+        alert('중복된 이메일입니다.');
+        return;
+      }
+    } catch (error) {
+      alert('Node Server Check 해봐.');
+      return;
+    }
+
+    if (this.pwState && this.checkState && this.emailState && this.emailUrlState && this.nameState) {
+      const payload = {
+        name: nameInput.value,
+        email: emailInput.value,
+        emailURL: emailURL.value,
+        pw: passwordInput.value
+      };
+
+      try {
+        const registerResponse = await fetch('http://localhost:3001/register', {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+        
+        if (registerResponse.ok) {
+          alert('가입 성공!');
+          // 메인 화면으로 전환하는 모듈 넣기 or 모듈 분리 후 return값을 controller에서 판단하여 mainView 출력하기.
+
+        } else {
+          alert('가입 실패. 다시 시도해주세요.');
+        }
+
+      } catch (error) {
+        alert('가입 요청 중 오류가 발생했습니다.');
+      }
+    } else {
+      alert('틀린 양식이 있습니다. (switch로 알려주기.)');
+    }
+  }
+
   emailIdValidation(name: string): boolean {
     return /^[A-Za-z0-9][A-Za-z0-9]*$/.test(name);
   }
 
-  // 주소 확인
   emailUrlValidation(url: string): boolean {
-    let result: any;
-
-    /^[a-zA-Z0-9-..]{2,12}$/.test(url) ?
-      result = url.split('.') :
-      result = false;
-
+    const result = /^[a-zA-Z0-9.-]{2,12}$/.test(url) ? url.split('.') : false;
     if (result !== false) {
-
-      if (result.length > 3 || url[url.length - 1] === '.') {
-        return false;
-      }
-
-      let str1 = result[0] as string;
-      let str2 = result[1] as string;
-
-      str1.includes('.') ?
-        result = false :
-        str2.includes('.') ?
-          result = false :
-          result = true;
+      if (result.length > 3 || url[url.length - 1] === '.') return false;
+      const [str1, str2] = result;
+      if (str1.includes('.') || (str2 && str2.includes('.'))) return false;
+      return true;
     }
-
-    return result;
+    return false;
   }
 
-  // 닉네임 확인
   nameValidation(name: string): boolean {
-    // 한,영 숫자 2~12글자.
     return /^[a-zA-Zㄱ-힣0-9.]{2,12}$/.test(name);
   }
 
-  passwordVaildation(pw: string): boolean {
-    return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{6,18}$/.test(pw)
+  passwordValidation(pw: string): boolean {
+    return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{6,18}$/.test(pw);
   }
 
   setStyle() {
-    let style = document.createElement('style');
+    const style = document.createElement('style');
     style.textContent = `
-    #register-section{
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      >div{
-        margin: 30px
+      #register-section{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
       }
-      >input{
-        margin: 30px
+      #register-section > div, 
+      #register-section > input {
+        margin: 30px;
       }
-      >:nth-child(3){
+      #email-wrapper {
         display: flex;
         height: 20px;
         text-align: center;
         justify-content: center;
         align-items: center;
       }
-    }
-    `
+    `;
     return style;
   }
-
 }
