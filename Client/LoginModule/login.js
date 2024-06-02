@@ -18,7 +18,17 @@ export let loginFormEventModule = () => {
             let formTag = e.target;
             let email = formTag[0];
             let pw = formTag[1];
-            let fetchJson = yield fetch(`http://localhost:3001/login`, { method: "POST", body: JSON.stringify({ email: email.value, pw: pw.value }) });
+            let loginRes = fetch(`http://localhost:3001/login`, {
+                method: "POST",
+                // headers : {'Content-Type' : 'application/json'},
+                body: JSON.stringify({ email: email.value, pw: pw.value }),
+                credentials: 'include',
+            })
+                .then((result) => {
+                alert(`성공 : ${result}`);
+                // Login이 성공적으로 진행된다면 alter + 세션 권한 부여, login-section을 해당 유저의 정보 창으로 변경.
+                // shadow DOM?
+            });
         }));
     }
 };

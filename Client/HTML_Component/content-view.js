@@ -14,8 +14,48 @@ export class ContentView extends HTMLElement {
         const rightButton = document.createElement('button');
         rightButton.innerHTML = 'right';
         newsSection.appendChild(rightButton);
+        shadowDom.appendChild(this.setStyleContentView());
         shadowDom.appendChild(contentSection);
         contentSection.appendChild(popularSampleSection);
         contentSection.appendChild(newsSection);
+    }
+    setStyleContentView() {
+        let style = document.createElement('style');
+        style.textContent = `
+      #content-section {
+        display: grid;
+        grid-template-rows: 2fr 3fr;
+        grid-template-areas:
+          "popular"
+          "news";
+        gap: 30px;
+      }
+      
+      #popular-sample-section {
+        grid-area: popular;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+      
+      #popular-sample-section > div {
+        width: 200px;
+        height: 80%;
+        background-color: rgb(180, 180, 180);
+      }
+
+      #news-section {
+        grid-area: news;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      #news-section button {
+        width: 100px;
+        height: 40px;
+      }
+    `;
+        return style;
     }
 }
