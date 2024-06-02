@@ -36,8 +36,8 @@ http.createServer((req, res) => {
     let resultBool = db.checkUserEmail(email[1]);
 
     resultBool ?
-      res.writeHead(200, { 'Access-Control-Allow-Origin': '*' }) :
-      res.writeHead(201, { 'Access-Control-Allow-Origin': '*' });
+      res.writeHead(200, { 'Access-Control-Allow-Origin': 'http://localhost:3000' }) :
+      res.writeHead(201, { 'Access-Control-Allow-Origin': 'http://localhost:3000' });
 
     res.end();
   }
@@ -58,10 +58,15 @@ let loginModule = (data, res) => {
   console.log(userObj)
   if(userObj !== undefined && userObj !== null){
     let randKey = crypto.randomBytes(byteLength).toString('hex');
-    res.writeHead(201, { 'Set-Cookie' : `${randKey}` , 'Access-Control-Allow-Origin': '*'});
+
+    res.writeHead(201, {
+      'Set-Cookie': `${randKey}; HttpOnly; SameSite=None; Secure`,
+      'Access-Control-Allow-Credentials': 'true' ,
+      'Access-Control-Allow-Origin': 'http://localhost:3000',
+    });
     res.end();
   }else{
-    res.writeHead(204, { 'Set-Cookie' : `${randKey}` , 'Access-Control-Allow-Origin': '*'});
+    // res.writeHead(204, { 'Set-Cookie' : `${randKey}` , 'Access-Control-Allow-Origin': '*'});
     res.end();
   }
 }
