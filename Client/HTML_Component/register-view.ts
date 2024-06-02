@@ -132,6 +132,7 @@ export class RegisterView extends HTMLElement {
         if (registerResponse.ok) {
           alert('가입 성공!');
           // 메인 화면으로 전환하는 모듈 넣기 or 모듈 분리 후 return값을 controller에서 판단하여 mainView 출력하기.
+          
 
         } else {
           alert('가입 실패. 다시 시도해주세요.');
