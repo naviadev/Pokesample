@@ -1,5 +1,5 @@
 export class RegisterView extends HTMLElement {
-  
+
   [key: string]: any;
   pwState: boolean;
   checkState: boolean;
@@ -12,21 +12,25 @@ export class RegisterView extends HTMLElement {
 
   constructor() {
     super()
-    this.createDOM()
+
     this.pwState = false;
     this.checkState = false;
     this.nameState = false;
     this.emailState = false;
     this.emailUrlState = false;
+
     this.emailString = {
       id: "",
       url: ""
     };
+
+    this.createDOM()
+    this.mainView = document.getElementById('main-view');
   }
 
   createDOM() {
     const shadowDom = this.attachShadow({ mode: 'open' });
-
+    
     const registerSection = document.createElement('div');
     registerSection.setAttribute('id', 'register-section');
 
@@ -89,7 +93,7 @@ export class RegisterView extends HTMLElement {
     });
 
     // send request 3001 port
-    submitButton.addEventListener('click', this.handleSubmit.bind(this, nameInput, emailInput, emailURL, passwordInput));
+    submitButton.addEventListener('click', this.submitController.bind(this, nameInput, emailInput, emailURL, passwordInput));
   }
 
   addInputEventListener(element: HTMLInputElement, validationFn: (value: string) => boolean, stateKey: string, emailKey?: string) {
@@ -103,7 +107,7 @@ export class RegisterView extends HTMLElement {
     });
   }
 
-  async handleSubmit(nameInput: HTMLInputElement, emailInput: HTMLInputElement, emailURL: HTMLInputElement, passwordInput: HTMLInputElement) {
+  async submitController(nameInput: HTMLInputElement, emailInput: HTMLInputElement, emailURL: HTMLInputElement, passwordInput: HTMLInputElement) {
     try {
       const emailCheckResponse = await fetch(`http://localhost:3001/emailCheck/${this.emailString.id}@${this.emailString.url}`, { method: 'GET' });
       if (emailCheckResponse.status === 200) {
@@ -131,9 +135,9 @@ export class RegisterView extends HTMLElement {
         
         if (registerResponse.ok) {
           alert('가입 성공!');
-          // 메인 화면으로 전환하는 모듈 넣기 or 모듈 분리 후 return값을 controller에서 판단하여 mainView 출력하기.
-          
-
+          this.mainView.removeChild(this.mainView.children[0]);
+          let contentView = document.createElement('content-view');
+          this.mainView.insertBefore(contentView, this.mainView.children[0])
         } else {
           alert('가입 실패. 다시 시도해주세요.');
         }
@@ -193,3 +197,5 @@ export class RegisterView extends HTMLElement {
     return style;
   }
 }
+
+
