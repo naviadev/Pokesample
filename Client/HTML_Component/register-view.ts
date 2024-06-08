@@ -197,5 +197,3 @@ export class RegisterView extends HTMLElement {
     return style;
   }
 }
-
-
