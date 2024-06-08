@@ -1,5 +1,5 @@
 export const DomElementContainer = {
-  "register-section": {
+  "register-div": {
     'header-h2':[],
     'name-input':[],
     'email-div':{
