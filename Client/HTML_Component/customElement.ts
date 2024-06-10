@@ -1,40 +1,31 @@
-interface containerInterface {
-  [key: string]: any | object;
-}
-
 export class CustomElement extends HTMLElement {
-
-  element: HTMLDivElement;
   constructor() {
     super();
-    this.element = document.getElementById('main') as HTMLDivElement;
+    this.attachShadow({ mode: 'open' });
   }
-  recursionCreateElement(root: { [key: string]: any }, current?: HTMLDivElement | any) {
-    let keys = Object.keys(root);
 
-    for (let i = 0; i < keys.length; i++) {
-      if (Array.isArray(root)) {
-        for (let j = 0; j <= root.length / 2; j += 2) {
-          for (let k = 0; k < root[j + 1]; k++) {
-            let tag = document.createElement(root[j]);
-            current.appendChild(tag);
-          }
-        }
-        return
-      }
+  recursionCreateElement(root: any, current: Node = this.shadowRoot!): void {
+    // root가 객체인지 확인
+    if (root && typeof root === 'object' && !Array.isArray(root)) {
+      let keys: string[] = Object.keys(root);
 
-      else {
+      console.log(`keys : ${keys}`);
+      for (let i = 0; i < keys.length; i++) {
         let tagType = keys[i].split('-')[1];
-        let newTag = document.createElement(tagType);
-        newTag.setAttribute("id", `${keys[i]}`);
-        current.appendChild(newTag);
-        this.recursionCreateElement(root[keys[i]], newTag);
 
-        if (keys.length === 1) {
-          const shadowDom = this.attachShadow({ mode: 'open' });
-          shadowDom.appendChild(newTag);
+        let newTag: HTMLElement = document.createElement(tagType);
+
+        newTag.setAttribute("id", `${keys[i]}`);
+
+        if (current instanceof Element) {
+          current.appendChild(newTag);
         }
+
+        console.log(root[keys[i]]);
+        // 재귀 호출
+        this.recursionCreateElement(root[keys[i]], newTag);
       }
     }
   }
 }
+
